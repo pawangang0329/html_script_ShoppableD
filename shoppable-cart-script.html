@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentación — Shoppable Cart</title>
+    <style>
+      :root {
+        --bg: #f6f7f9;
+        --card: #fff;
+        --text: #202124;
+        --muted: #5f6368;
+        --line: #e1e4e8;
+        --accent: #111827;
+        --code: #171717;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+      header {
+        background: #111;
+        color: #fff;
+        padding: 42px 24px;
+      }
+      header .wrap {
+        max-width: 1100px;
+        margin: auto;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 36px;
+      }
+      header p {
+        margin: 0;
+        color: #d1d5db;
+      }
+      nav {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+        z-index: 10;
+      }
+      nav .wrap {
+        max-width: 1100px;
+        margin: auto;
+        padding: 12px 24px;
+        display: flex;
+        gap: 18px;
+        overflow: auto;
+        white-space: nowrap;
+      }
+      nav a {
+        color: #374151;
+        text-decoration: none;
+        font-size: 14px;
+      }
+      main {
+        max-width: 1100px;
+        margin: 32px auto;
+        padding: 0 24px;
+      }
+      section {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 28px;
+        margin-bottom: 22px;
+      }
+      h2 {
+        margin-top: 0;
+        font-size: 25px;
+      }
+      h3 {
+        margin-top: 26px;
+      }
+      p,
+      li {
+        color: #374151;
+      }
+      .note {
+        background: #f1f5f9;
+        border-left: 4px solid #111;
+        padding: 14px 16px;
+        border-radius: 6px;
+      }
+      .warning {
+        background: #fff7ed;
+        border-left: 4px solid #ea580c;
+        padding: 14px 16px;
+        border-radius: 6px;
+      }
+      code {
+        background: #f1f3f4;
+        padding: 2px 5px;
+        border-radius: 4px;
+        font-family: Consolas, monospace;
+      }
+      pre {
+        background: var(--code);
+        color: #f5f5f5;
+        padding: 18px;
+        border-radius: 8px;
+        overflow: auto;
+        font: 13px/1.55 Consolas, monospace;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+      }
+      th,
+      td {
+        border: 1px solid var(--line);
+        padding: 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #f8fafc;
+      }
+      .badge {
+        display: inline-block;
+        background: #e5e7eb;
+        border-radius: 999px;
+        padding: 3px 9px;
+        font-size: 12px;
+      }
+      .footer {
+        color: var(--muted);
+        font-size: 13px;
+        text-align: center;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <h1>Shoppable Cart</h1>
+        <p>
+          Documentación de uso, configuración y personalización del script
+          <code>shoppable-cart.js</code>
+        </p>
+      </div>
+    </header>
+
+    <nav>
+      <div class="wrap">
+        <a href="#overview">Descripción</a><a href="#install">Instalación</a
+        ><a href="#products">Productos</a><a href="#variants">Variantes</a
+        ><a href="#target">Ubicación</a><a href="#style">Estilos</a>
+      </div>
+    </nav>
+
+    <main>
+      <section id="overview">
+        <h2>1. ¿Qué hace este script?</h2>
+        <p>
+          El script crea una interfaz de productos y un carrito directamente
+          desde JavaScript. No necesita que el HTML tenga previamente el
+          catálogo: al inicializarse genera el botón
+          <strong>“Ver productos”</strong>, el panel lateral de
+          productos/carrito y el modal de detalle.
+        </p>
+        <p>
+          El catálogo se define dentro del propio archivo mediante el arreglo
+          <code>P</code>. La moneda está configurada inicialmente como
+          <strong>COP</strong>.
+        </p>
+        <div class="note">
+          El archivo funciona como un componente autocontenido: agrega sus
+          propios estilos, crea sus elementos HTML y administra el estado del
+          carrito en memoria.
+        </div>
+      </section>
+
+      <section id="install">
+        <h2>2. Instalación básica</h2>
+        <p>
+          Guarda <code>shoppable-cart.js</code> en tu proyecto y cárgalo desde
+          el HTML:
+        </p>
+        <pre>
+&lt;script src="https://pawangang0329.github.io/Script_Shoppable/shoppable-cart.js"&gt;&lt;/script&gt;</pre
+        >
+        <p>
+          También puedes indicar un elemento específico donde se insertará la
+          interfaz usando <code>data-target</code>:
+        </p>
+        <pre>
+&lt;div id="mi-carrito"&gt;&lt;/div&gt;
+
+&lt;script src="https://pawangang0329.github.io/Script_Shoppable/shoppable-cart.js" data-target="#mi-carrito"&gt;&lt;/script&gt;</pre
+        >
+        <p>
+          Si no se especifica <code>data-target</code>, el script utiliza
+          <code>document.body</code> como contenedor.
+        </p>
+      </section>
+
+      <section id="products">
+        <h2>3. Cómo agregar o modificar productos</h2>
+        <p>
+          Los productos se encuentran en el arreglo <code>P</code>. Cada
+          producto utiliza esta estructura:
+        </p>
+        <pre>
+{
+  id: "1",
+  name: "Nombre_producto_1",
+  description: "Descripcion_producto_1",
+  image: "URL_imagen_producto_1",
+  url: "URL_oficial_producto_1",
+  variants: [
+    {
+      id: "v1",
+      name: "Variante_1",
+      image: "URL_imagen_variante_1",
+      price: 10000
+    }
+  ],
+  specifications: [
+    "Caracteristica_1",
+    "Caracteristica_2"
+  ]
+}</pre
+        >
+
+        <table>
+          <tr>
+            <th>Propiedad</th>
+            <th>Uso</th>
+          </tr>
+          <tr>
+            <td><code>id</code></td>
+            <td>Identificador único del producto.</td>
+          </tr>
+          <tr>
+            <td><code>name</code></td>
+            <td>Nombre que se muestra al usuario.</td>
+          </tr>
+          <tr>
+            <td><code>description</code></td>
+            <td>Descripción del producto.</td>
+          </tr>
+          <tr>
+            <td><code>image</code></td>
+            <td>URL de la imagen principal.</td>
+          </tr>
+          <tr>
+            <td><code>url</code></td>
+            <td>URL que se abre al comprar.</td>
+          </tr>
+          <tr>
+            <td><code>variants</code></td>
+            <td>Lista de variantes disponibles.</td>
+          </tr>
+          <tr>
+            <td><code>specifications</code></td>
+            <td>
+              Arreglo de características. Está definido en el modelo de datos,
+              pero actualmente no se muestra en el modal.
+            </td>
+          </tr>
+        </table>
+
+        <h3>Ejemplo de producto real</h3>
+        <pre>
+{
+  id: "3",
+  name: "Camiseta deportiva",
+  description: "Camiseta para entrenamiento",
+  image: "https://ejemplo.com/camiseta.jpg",
+  url: "https://ejemplo.com/producto/camiseta",
+  variants: [
+    {
+      id: "talla-s",
+      name: "Talla S",
+      image: "https://ejemplo.com/s.jpg",
+      price: 59900
+    },
+    {
+      id: "talla-m",
+      name: "Talla M",
+      image: "https://ejemplo.com/m.jpg",
+      price: 59900
+    }
+  ],
+  specifications: ["Tela deportiva", "Secado rápido"]
+}</pre
+        >
+      </section>
+
+      <section id="variants">
+        <h2>4. Variantes</h2>
+        <p>
+          Cada variante tiene su propio <code>id</code>, nombre, imagen y
+          precio. El usuario puede seleccionar la variante desde el modal de
+          producto.
+        </p>
+        <p>
+          El carrito identifica un artículo mediante la combinación de
+          <code>productId</code> y <code>variantId</code>. Por eso, dos
+          variantes del mismo producto pueden mantenerse como artículos
+          separados.
+        </p>
+        <div class="warning">
+          <strong>Importante:</strong> aunque cada variante tiene una imagen, el
+          código actual guarda la imagen de la variante al agregarla al carrito,
+          pero el modal no cambia automáticamente la imagen principal cuando se
+          selecciona otra variante.
+        </div>
+      </section>
+
+      <section id="target">
+        <h2>5. Elegir dónde aparece el componente</h2>
+        <p>
+          Por defecto, <code>ui()</code> utiliza <code>document.body</code>.
+          Para colocarlo dentro de otro elemento, usa <code>data-target</code>.
+        </p>
+        <pre>
+&lt;section id="zona-productos"&gt;&lt;/section&gt;
+
+&lt;script
+  src="https://pawangang0329.github.io/Script_Shoppable/shoppable-cart.js"
+  data-target="#zona-productos"&gt;
+&lt;/script&gt;</pre
+        >
+        <p>
+          El selector debe coincidir con un elemento existente en la página.
+        </p>
+      </section>
+
+      <section id="style">
+        <h2>6. Personalizar apariencia</h2>
+        <p>
+          Los estilos se generan automáticamente dentro de la función
+          <code>css()</code>. Las clases principales son:
+        </p>
+        <table>
+          <tr>
+            <th>Clase</th>
+            <th>Elemento</th>
+          </tr>
+          <tr>
+            <td><code>.spb</code></td>
+            <td>Botón “Ver productos”.</td>
+          </tr>
+          <tr>
+            <td><code>.spp</code></td>
+            <td>Panel lateral del catálogo y carrito.</td>
+          </tr>
+          <tr>
+            <td><code>.spi</code></td>
+            <td>Fila de un producto dentro del carrito.</td>
+          </tr>
+          <tr>
+            <td><code>.spq</code></td>
+            <td>Control de cantidad − / +.</td>
+          </tr>
+          <tr>
+            <td><code>.spbuy</code></td>
+            <td>Botón “PAGAR TODO”.</td>
+          </tr>
+          <tr>
+            <td><code>.spm</code></td>
+            <td>Ventana modal del producto.</td>
+          </tr>
+          <tr>
+            <td><code>.add</code></td>
+            <td>Botón “Agregar al carrito”.</td>
+          </tr>
+          <tr>
+            <td><code>.buy</code></td>
+            <td>Botón “Comprar ahora”.</td>
+          </tr>
+        </table>
+        <p>
+          Por ejemplo, para cambiar el ancho del carrito lateral, modifica
+          <code>.spp</code>:
+        </p>
+        <pre>
+.spp{
+  width:450px;
+}</pre
+        >
+        <p>Para cambiar el color principal de los botones:</p>
+        <pre>
+.spbuy{
+  background:#0066cc;
+}</pre
+        >
+      </section>
+
+      <div class="footer">
+        Documentación de Shoppable Cart · basada en la implementación actual del
+        script
+      </div>
+    </main>
+  </body>
+</html>
